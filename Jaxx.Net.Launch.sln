@@ -8,6 +8,10 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jaxx.Net.Launch.DefaultLauchner", "Jaxx.Net.Launch.DefaultLauchner\Jaxx.Net.Launch.DefaultLauchner.csproj", "{E8FA7DAB-4082-4183-A881-F46C937A6898}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{34BCC9D0-FCEB-4B13-9DDA-CCB0D8022EBC}"
+	ProjectSection(SolutionItems) = preProject
+		LICENSE = LICENSE
+		README = README
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

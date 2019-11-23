@@ -35,8 +35,26 @@ namespace Jaxx.Net.Launch.DefaultLauchner.ViewModels
         private List<CustomCommand> customCommands;
         public DefaultLauncherMainViewModel()
         {
+            errorMessageVisibilityTimer = new Timer(5000);
+            errorMessageVisibilityTimer.AutoReset = true;
+            errorMessageVisibilityTimer.Elapsed += ErrorMessageVisibilityTimer_Elapsed;
+
+            var configFile = "config.txt";
+            try
+            {
+                LoadButtonConfiguration(configFile);
+            }
+            catch (Exception e)
+            {
+                var msg = e.Message;
+                ShowErrorMessage(msg);
+            }
+        }
+
+        private void LoadButtonConfiguration(string configFile)
+        {
             customCommands = new List<CustomCommand>();
-            var config = File.ReadAllLines("config.txt");
+            var config = File.ReadAllLines(configFile);
             foreach (var command in config)
             {
                 var splitted = command.Split(";");
@@ -50,10 +68,6 @@ namespace Jaxx.Net.Launch.DefaultLauchner.ViewModels
             {
                 Items.Add(new Button { Content = command.Name, Command = CustomCommandDelegate, CommandParameter = command, Height = 40, Margin = new System.Windows.Thickness(2) });
             }
-
-            errorMessageVisibilityTimer = new Timer(5000);
-            errorMessageVisibilityTimer.AutoReset = true;
-            errorMessageVisibilityTimer.Elapsed += ErrorMessageVisibilityTimer_Elapsed;
         }
 
         private void ErrorMessageVisibilityTimer_Elapsed(object sender, ElapsedEventArgs e)
@@ -86,10 +100,16 @@ namespace Jaxx.Net.Launch.DefaultLauchner.ViewModels
             }
             catch (Exception e)
             {
-                IsErrorMessageVisible = true;
-                ErrorMessage = $"{e.Message} ({parameter.Command})";
-                errorMessageVisibilityTimer.Start();
+                var msg = $"{e.Message} ({parameter.Command})";
+                ShowErrorMessage(msg);
             }
+        }
+
+        private void ShowErrorMessage(string msg)
+        {
+            IsErrorMessageVisible = true;
+            ErrorMessage = msg;
+            errorMessageVisibilityTimer.Start();
         }
 
         bool CanExecuteCustomCommandDelegate(CustomCommand parameter)

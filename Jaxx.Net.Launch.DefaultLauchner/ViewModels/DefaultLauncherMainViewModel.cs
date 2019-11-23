@@ -7,6 +7,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Timers;
 using System.Windows.Controls;
 using System.Windows.Input;
 
@@ -15,6 +16,22 @@ namespace Jaxx.Net.Launch.DefaultLauchner.ViewModels
     public class DefaultLauncherMainViewModel : BindableBase
     {
         public ObservableCollection<Button> Items { get; set; }
+
+        private string errorMessage;
+        public string ErrorMessage
+        {
+            get { return errorMessage; }
+            set { SetProperty(ref errorMessage, value); }
+        }
+        private bool isErrrorMessageVisible = false;
+        public bool IsErrorMessageVisible
+        {
+            get { return isErrrorMessageVisible; }
+            set { SetProperty(ref isErrrorMessageVisible, value); }
+        }
+
+        private Timer errorMessageVisibilityTimer;
+
         private List<CustomCommand> customCommands;
         public DefaultLauncherMainViewModel()
         {
@@ -25,15 +42,27 @@ namespace Jaxx.Net.Launch.DefaultLauchner.ViewModels
                 var splitted = command.Split(";");
                 customCommands.Add(new CustomCommand { Name = splitted[0], Command = splitted[1], ShellExecute = bool.Parse(splitted[2]) });
             }
-            
-            
+
+
             Items = new ObservableCollection<Button>();
 
             foreach (var command in customCommands)
             {
                 Items.Add(new Button { Content = command.Name, Command = CustomCommandDelegate, CommandParameter = command, Height = 40, Margin = new System.Windows.Thickness(2) });
             }
+
+            errorMessageVisibilityTimer = new Timer(5000);
+            errorMessageVisibilityTimer.AutoReset = true;
+            errorMessageVisibilityTimer.Elapsed += ErrorMessageVisibilityTimer_Elapsed;
         }
+
+        private void ErrorMessageVisibilityTimer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            errorMessageVisibilityTimer.Stop();
+            IsErrorMessageVisible = false;
+            ErrorMessage = "";
+        }
+
         private DelegateCommand<CustomCommand> delegateCommand;
         public DelegateCommand<CustomCommand> CustomCommandDelegate =>
             delegateCommand ?? (delegateCommand = new DelegateCommand<CustomCommand>(ExecuteCustomCommandDelegate, CanExecuteCustomCommandDelegate));
@@ -57,7 +86,9 @@ namespace Jaxx.Net.Launch.DefaultLauchner.ViewModels
             }
             catch (Exception e)
             {
-                
+                IsErrorMessageVisible = true;
+                ErrorMessage = $"{e.Message} ({parameter.Command})";
+                errorMessageVisibilityTimer.Start();
             }
         }
 
@@ -66,5 +97,5 @@ namespace Jaxx.Net.Launch.DefaultLauchner.ViewModels
             return true;
         }
     }
-    
+
 }

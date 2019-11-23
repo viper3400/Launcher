@@ -1,1 +1,2 @@
 ﻿Example Open C;C:\;true
+Error Open X;X:;true

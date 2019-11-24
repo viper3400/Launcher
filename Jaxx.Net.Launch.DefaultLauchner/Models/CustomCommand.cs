@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Jaxx.Net.Launch.DefaultLauchner.Models
+﻿namespace Jaxx.Net.Launch.DefaultLauchner.Models
 {
     public class CustomCommand
     {

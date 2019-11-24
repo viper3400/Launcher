@@ -1,8 +1,8 @@
-﻿using Prism.Ioc;
+﻿using Jaxx.Net.Launch.DefaultLauchner;
 using Jaxx.Net.Launch.Views;
-using System.Windows;
+using Prism.Ioc;
 using Prism.Modularity;
-using Jaxx.Net.Launch.DefaultLauchner;
+using System.Windows;
 
 namespace Jaxx.Net.Launch
 {

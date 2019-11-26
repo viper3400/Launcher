@@ -8,6 +8,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Timers;
 using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace Jaxx.Net.Launch.DefaultLauchner.ViewModels
 {
@@ -56,7 +57,17 @@ namespace Jaxx.Net.Launch.DefaultLauchner.ViewModels
             foreach (var command in config)
             {
                 var splitted = command.Split(";");
-                customCommands.Add(new CustomCommand { Name = splitted[0], Command = splitted[1], ShellExecute = bool.Parse(splitted[2]) });
+                var customCommand = new CustomCommand { Name = splitted[0], Command = splitted[1], ShellExecute = bool.Parse(splitted[2]) };
+
+                try
+                {
+                    customCommand.Color = new BrushConverter().ConvertFromString(splitted[3]) as Brush;
+                }
+                catch (Exception)
+                { }
+
+
+                customCommands.Add(customCommand);
             }
 
 
@@ -64,7 +75,18 @@ namespace Jaxx.Net.Launch.DefaultLauchner.ViewModels
 
             foreach (var command in customCommands)
             {
-                Items.Add(new Button { Content = command.Name, Command = CustomCommandDelegate, CommandParameter = command, Height = 40, Margin = new System.Windows.Thickness(2) });
+                var btn = new Button
+                {
+                    Content = command.Name,
+                    Command = CustomCommandDelegate,
+                    CommandParameter = command,
+                    Height = 40,
+                    Margin = new System.Windows.Thickness(2)
+                };
+
+                if (command.Color != null) btn.Background = command.Color;
+
+                Items.Add(btn);
             }
         }
 

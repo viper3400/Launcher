@@ -16,12 +16,14 @@ Main reason why I build this tool is that:
 - Each line means one command and one button in the UI.
 - Each line need to follow the syntax:
 
-```[NAME IN UI];[PATH];[SHELLEXECUTE]```
+```[NAME IN UI];[PATH];[SHELLEXECUTE];[COLOR]```
+
+Starting with 1.1.0 you can add a color from Bushes class to set  background color of the button (https://docs.microsoft.com/en-us/dotnet/api/system.drawing.brushes)
 
 Example
 
 ```
-Open folder C:\Temp;C:\Temp\;true
+Open folder C:\Temp;C:\Temp\;true;red
 Open Putty;C:\Temp\putty.exe;false
 ```
 

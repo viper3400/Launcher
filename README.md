@@ -29,6 +29,16 @@ Open Putty;C:\Temp\putty.exe;false
 
 With the ShellExecute parameter set to true you can launch documents or folders and so on with the default application.
 
+# Publish as SingeFile Application
+```
+dotnet publish -r win-x64 -c Release -o publish -p:PublishReadyToRun=true 
+               -p:PublishSingleFile=true -p:PublishTrimmed=true --self-contained true 
+               -p:IncludeNativeLibrariesForSelfExtract=true -p:Version=[x.y.z.n]
+```
+
+* https://github.com/dotnet/designs/blob/main/accepted/2020/single-file/design.md#user-experience
+* https://github.com/dotnet/runtime/issues/36590
+
 # Credits
 ## App Icon
 * https://www.deviantart.com/franksouza183

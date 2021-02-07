@@ -7,13 +7,17 @@
         <BooleanToVisibilityConverter x:Key="BoolToVis" />
     </UserControl.Resources>
     <Grid>
-        <StackPanel>
-            <StackPanel Background="#FFFF5100" MinHeight="30" Visibility="{Binding IsErrorMessageVisible, Converter={StaticResource BoolToVis}}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <StackPanel Background="#FFFF5100" MinHeight="30" Visibility="{Binding IsErrorMessageVisible, Converter={StaticResource BoolToVis}}" Grid.Row="1">
                 <Label Content="{Binding ErrorMessage}" ></Label>
             </StackPanel>
             <ScrollViewer>
-                <ItemsControl ItemsSource="{Binding Items}" />
+                <StackPanel>
+                    <ItemsControl ItemsSource="{Binding Items}" />
+                </StackPanel>
             </ScrollViewer>
-        </StackPanel>
     </Grid>
 </UserControl>

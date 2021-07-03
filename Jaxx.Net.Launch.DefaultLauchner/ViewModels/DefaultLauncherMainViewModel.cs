@@ -112,28 +112,29 @@ namespace Jaxx.Net.Launch.DefaultLauchner.ViewModels
         public DelegateCommand<CustomCommand> CustomCommandDelegate =>
             delegateCommand ?? (delegateCommand = new DelegateCommand<CustomCommand>(ExecuteCustomCommandDelegate, CanExecuteCustomCommandDelegate));
 
-        void ExecuteCustomCommandDelegate(CustomCommand parameter)
+        private void ExecuteCustomCommandDelegate(CustomCommand parameter)
         {
             try
             {
-                using (Process myProcess = new Process())
+                using Process myProcess = new Process();
+                myProcess.StartInfo.UseShellExecute = parameter.ShellExecute;
+                // You can start any process, HelloWorld is a do-nothing example.
+                myProcess.StartInfo.FileName = parameter.Command;
+                //myProcess.StartInfo.CreateNoWindow = true;
+                if (!string.IsNullOrWhiteSpace(parameter.Arguments))
                 {
-                    myProcess.StartInfo.UseShellExecute = parameter.ShellExecute;
-                    // You can start any process, HelloWorld is a do-nothing example.
-                    myProcess.StartInfo.FileName = parameter.Command;
-                    //myProcess.StartInfo.CreateNoWindow = true;
-                    if (!String.IsNullOrWhiteSpace(parameter.Arguments))
-                        myProcess.StartInfo.Arguments = parameter.Arguments;
-                    myProcess.Start();
-                    // This code assumes the process you are starting will terminate itself. 
-                    // Given that is is started without a window so you cannot terminate it 
-                    // on the desktop, it must terminate itself or you can do it programmatically
-                    // from this application using the Kill method.
+                    myProcess.StartInfo.Arguments = parameter.Arguments;
                 }
+
+                _ = myProcess.Start();
+                // This code assumes the process you are starting will terminate itself. 
+                // Given that is is started without a window so you cannot terminate it 
+                // on the desktop, it must terminate itself or you can do it programmatically
+                // from this application using the Kill method.
             }
             catch (Exception e)
             {
-                var msg = $"{e.Message} ({parameter.Command})";
+                string msg = $"{e.Message} ({parameter.Command})";
                 ShowErrorMessage(msg);
             }
         }
@@ -145,7 +146,7 @@ namespace Jaxx.Net.Launch.DefaultLauchner.ViewModels
             errorMessageVisibilityTimer.Start();
         }
 
-        bool CanExecuteCustomCommandDelegate(CustomCommand parameter)
+        private bool CanExecuteCustomCommandDelegate(CustomCommand parameter)
         {
             return true;
         }

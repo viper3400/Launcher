@@ -142,7 +142,8 @@ namespace Jaxx.Net.Launch.DefaultLauchner.ViewModels
         private void ShowErrorMessage(string msg)
         {
             IsErrorMessageVisible = true;
-            ErrorMessage = msg;
+            ErrorMessage = string.IsNullOrWhiteSpace(ErrorMessage) ? msg : msg + "\r\n" + ErrorMessage;
+
             errorMessageVisibilityTimer.Start();
         }
 

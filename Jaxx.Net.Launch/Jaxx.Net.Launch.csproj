@@ -7,7 +7,7 @@
     <ApplicationIcon>AppIcon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Prism.Unity" Version="8.0.0.1909" />
+    <PackageReference Include="Prism.Unity" Version="8.1.97" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Jaxx.Net.Launch.DefaultLauchner\Jaxx.Net.Launch.DefaultLauchner.csproj" />

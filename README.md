@@ -16,15 +16,18 @@ Main reason why I build this tool is that:
 - Each line means one command and one button in the UI.
 - Each line need to follow the syntax:
 
-```[NAME IN UI];[PATH];[SHELLEXECUTE];[COLOR]```
+```[NAME IN UI];[PATH];[ARGUMENTS];[SHELLEXECUTE];[COLOR]```
 
 Starting with 1.1.0 you can add a color from Bushes class to set  background color of the button (https://docs.microsoft.com/en-us/dotnet/api/system.drawing.brushes)
+Starting with 2.0.0 you can add arguments to your call. You can leave it empty.
+When migration from 1.x to 2.x you have to adjust your config.txt and insert the argument field in the semicolon separated list.
 
 Example
 
 ```
-Open folder C:\Temp;C:\Temp\;true;red
-Open Putty;C:\Temp\putty.exe;false
+Open folder C:\Temp;C:\Temp\;;true;red
+Open Putty;C:\Temp\putty.exe;;false
+Call with Arguments;C:\PortableApps\DB Browser for SQLite\DB Browser for SQLite.exe;D:\Temp\test.db;false;Honeydew
 ```
 
 With the ShellExecute parameter set to true you can launch documents or folders and so on with the default application.

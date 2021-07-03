@@ -1,2 +1,3 @@
-﻿Example Open C;C:\;true;Honeydew
-Error Open X;X:;true
+﻿Example Open C;C:\;;true;Honeydew
+Error Open X;X:;;true
+Call with Arguments;C:\PortableApps\DB Browser for SQLite\DB Browser for SQLite.exe;D:\Temp\test.db;false;Honeydew

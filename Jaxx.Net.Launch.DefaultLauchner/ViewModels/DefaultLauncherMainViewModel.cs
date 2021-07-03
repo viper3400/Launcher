@@ -57,11 +57,11 @@ namespace Jaxx.Net.Launch.DefaultLauchner.ViewModels
             foreach (var command in config)
             {
                 var splitted = command.Split(";");
-                var customCommand = new CustomCommand { Name = splitted[0], Command = splitted[1], ShellExecute = bool.Parse(splitted[2]) };
+                var customCommand = new CustomCommand { Name = splitted[0], Command = splitted[1], Arguments = splitted[2], ShellExecute = bool.Parse(splitted[3]) };
 
                 try
                 {
-                    customCommand.Color = new BrushConverter().ConvertFromString(splitted[3]) as Brush;
+                    customCommand.Color = new BrushConverter().ConvertFromString(splitted[4]) as Brush;
                 }
                 catch (Exception)
                 { }
@@ -111,6 +111,8 @@ namespace Jaxx.Net.Launch.DefaultLauchner.ViewModels
                     // You can start any process, HelloWorld is a do-nothing example.
                     myProcess.StartInfo.FileName = parameter.Command;
                     //myProcess.StartInfo.CreateNoWindow = true;
+                    if (!String.IsNullOrWhiteSpace(parameter.Arguments))
+                        myProcess.StartInfo.Arguments = parameter.Arguments;
                     myProcess.Start();
                     // This code assumes the process you are starting will terminate itself. 
                     // Given that is is started without a window so you cannot terminate it 

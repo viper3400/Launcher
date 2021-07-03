@@ -57,8 +57,19 @@ namespace Jaxx.Net.Launch.DefaultLauchner.ViewModels
             foreach (var command in config)
             {
                 var splitted = command.Split(";");
-                var customCommand = new CustomCommand { Name = splitted[0], Command = splitted[1], Arguments = splitted[2], ShellExecute = bool.Parse(splitted[3]) };
+                var customCommand = new CustomCommand { Name = splitted[0], Command = splitted[1], Arguments = splitted[2] };
 
+                // try to parse shell execute boolean
+                try
+                {
+                    customCommand.ShellExecute = bool.Parse(splitted[3]);
+                }
+                catch (Exception)
+                {
+                    ShowErrorMessage($"Cannot parse ShellExecute value for '{customCommand.Name}'");
+                }
+
+                // try to parse color
                 try
                 {
                     customCommand.Color = new BrushConverter().ConvertFromString(splitted[4]) as Brush;
